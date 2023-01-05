@@ -5,7 +5,7 @@ export default function Collection(props) {
 
   return (
     <>
-      <select className="btn btn-outline-primary w-100 mt-5">
+      <select className="btn btn-outline-primary w-100">
         {props.cols.map((e, index) => 
           <option key={index}>{e}</option>
         )}

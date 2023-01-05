@@ -12,8 +12,8 @@ export default function Search({ collections, words }) {
     <>
       <Container>
         <form method="post">
-          <Row className="row-cols-1">
-            <Col>
+          <Row className="row-cols-1" style={{'margin-top': '6rem'}}>
+            <Col className="mb-5">
               <h1 className="text-center">Word it!</h1>
                 <Form.Control
                   type="text"
@@ -24,7 +24,8 @@ export default function Search({ collections, words }) {
                   <Button type="submit" className="mt-2">Search</Button>
                 </div>
             </Col>
-            <Col>
+            <Col className="mt-5">
+              <h1 className="text-center">Collections</h1>
               <Collection cols={collections}/>   
             </Col>
             <Col>
@@ -42,6 +43,15 @@ export async function getServerSideProps({ req, res }) {
     props: {
       collections: ['default 0', 'default 1'],
       words: [
+        'this',
+        'this',
+        'this',
+        'this',
+        'this',
+        'this',
+        'this',
+        'this',
+        'this',
         'this',
       ]
     }
