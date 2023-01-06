@@ -3,18 +3,9 @@ import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import Form from "react-bootstrap/Form"
 import Button from "react-bootstrap/Button"
-
-import Collection from "../components/dropdown"
-import Word from "../components/word"
-
-import { useState } from 'react'
-import useSWR from 'swr'
-
-const fetcher = url => fetch(url).then(r => r.json())
+import Collection from "../components/collection"
 
 export default function Search({ collections }) {
-  // TODO: Move all endpoint fetchers to a file
-  const { data, error, isLoading, mutate } = useSWR(`/api/get/collection/${collections[0]}`, fetcher)
   return (
     <>
       <Container>
@@ -30,13 +21,7 @@ export default function Search({ collections }) {
                   <Button type="submit">Search</Button>
                 </div>
             </Col>
-            <Col xs={12}>
-              <h1 className="text-center">Collections</h1>
-              <Collection cols={collections}/>   
-            </Col>
-            <Col>
-              {<Word data={data}/>}
-            </Col>
+            <Collection collections={collections}/>
           </Row>
       </Container>
     </>
