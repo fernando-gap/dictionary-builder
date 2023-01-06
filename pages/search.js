@@ -7,53 +7,47 @@ import Button from "react-bootstrap/Button"
 import Collection from "../components/dropdown"
 import Word from "../components/word"
 
-export default function Search({ collections, words }) {
+import { useState } from 'react'
+import useSWR from 'swr'
+
+const fetcher = url => fetch(url).then(r => r.json())
+
+export default function Search({ collections }) {
+  // TODO: Move all endpoint fetchers to a file
+  const { data, error, isLoading, mutate } = useSWR(`/api/get/collection/${collections[0]}`, fetcher)
   return (
     <>
       <Container>
-        <form method="post">
-          <Row className="row-cols-1" style={{'margin-top': '6rem'}}>
-            <Col className="mb-5">
+          <Row>
+            <Col xs={12}>
               <h1 className="text-center">Word it!</h1>
                 <Form.Control
                   type="text"
                   placeholder="Any word you want!"
                 >
                 </Form.Control>
-                <div className="d-grid gap-2">
-                  <Button type="submit" className="mt-2">Search</Button>
+                <div className="d-grid gap-2 mt-2">
+                  <Button type="submit">Search</Button>
                 </div>
             </Col>
-            <Col className="mt-5">
+            <Col xs={12}>
               <h1 className="text-center">Collections</h1>
               <Collection cols={collections}/>   
             </Col>
             <Col>
-              <Word words={words}/>
+              {<Word data={data}/>}
             </Col>
           </Row>
-        </form>
       </Container>
     </>
   );
 }
 
-export async function getServerSideProps({ req, res }) {
+export function getServerSideProps({ req, res }) {
+  // TODO fetch user's collections
   return {
     props: {
-      collections: ['default 0', 'default 1'],
-      words: [
-        'this',
-        'this',
-        'this',
-        'this',
-        'this',
-        'this',
-        'this',
-        'this',
-        'this',
-        'this',
-      ]
+      collections: ['Default 0', 'Default 1']
     }
   }
 }
