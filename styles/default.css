@@ -1,0 +1,7 @@
+html, body {
+  height: 100%;
+}
+
+.wrapper{
+  height: calc(100vh - 12rem);
+}

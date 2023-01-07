@@ -4,7 +4,7 @@ import Container from 'react-bootstrap/Container'
 export default function Layout(props) {
   return (
     <>
-      <Navbar bg="primary" expand="lg" variant="dark" className="mb-5">
+      <Navbar bg="primary" expand="lg" variant="dark">
         <Container>
           <Navbar.Brand href="/">Vocab. Builder</Navbar.Brand>
         </Container>
