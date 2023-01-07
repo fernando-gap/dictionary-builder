@@ -14,7 +14,6 @@ export default function Collection(props) {
   }
 
   const [currentWord, setCurrentWord] = useState(null)
-  const [currentCol, setCurrentCol] = useState(props.collections[0])
   const map = {}
 
   useEffect(() => {
@@ -23,14 +22,14 @@ export default function Collection(props) {
     });
 
     if (!currentWord) {
-      setCurrentWord(map[currentCol])
+      setCurrentWord(map[props.collections[0]])
     }
   }, [map]);
 
   function handleChange() {
     const col = document.getElementById('select-collection')
-    setCurrentCol(col.value);
-    setCurrentWord(map[col.value])
+    props.setCol(col.value);
+    setCurrentWord(map[col.value]);
   }
 
   return (
@@ -60,7 +59,7 @@ function Word(props) {
         <Card.Header>Collection: {props.col}</Card.Header>
         <ListGroup variant="flush">
           {data && data.words.map((e, index) =>
-            <ListGroup.Item key={index}><a href="#">{e} {Math.random()}</a></ListGroup.Item>
+            <ListGroup.Item key={index}><a href="#">{e}</a></ListGroup.Item>
           )}
         </ListGroup>
       </Card>
