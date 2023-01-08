@@ -4,21 +4,28 @@ import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 
+import Router from "next/router"
+
 
 export default function Login() {
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    fetch('/api/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: e.currentTarget.username.value,
-        password: e.currentTarget.password.value
+    try {
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: e.currentTarget.username.value,
+          password: e.currentTarget.password.value
+        })
       })
-    })
-      //.then(r => r.json().then(console.log))
+
+      if (res.status === 200) {
+        Router.push('/search')
+      } else {}
+    } catch (e) {}
   }
   return (
     <>

@@ -6,11 +6,7 @@ passport.use(localStrategy);
 
  const authenticate = (method, req, res) =>
   new Promise((resolve, reject) => {
-    const options = {
-      successRedirect: '/search',
-      failureRedirect: '/login'
-    };
-    passport.authenticate(method, options, (error, token) => {
+    passport.authenticate(method, { session: true }, (error, token) => {
       if (error) {
         reject(error)
       } else {
@@ -24,7 +20,7 @@ export default nextConnect()
   .post(async (req, res) => {
     try {
       await authenticate('local', req, res)
-      res.redirect('/search')
+      res.status(200).send({ done: true })
     } catch (e) {
       res.status(401).send(e.message)
     }
