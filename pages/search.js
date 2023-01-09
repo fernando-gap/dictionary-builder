@@ -40,6 +40,7 @@ export default function Search({ collections }) {
 
 export function getServerSideProps({ req, res }) {
   // TODO fetch user's collections
+  console.log('HERE: ', req.user)
   return {
     props: {
       collections: ['default', 'pizza']
