@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react'
 import useSWR from 'swr'
 
 // TODO: move all fetchers/endpoints to its own file
-const fetcher = url => fetch(url).then(r => r.json())
+const fetcher = url => fetch(url, { credentials: 'include' }).then(r => r.json())
 
 export default function Collection(props) {
   if (!props.collections) {
