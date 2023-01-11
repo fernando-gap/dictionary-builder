@@ -12,6 +12,7 @@ export default function Login() {
     e.preventDefault();
     try {
       const res = await fetch('/api/login', {
+        credentials: 'include',
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -19,18 +20,21 @@ export default function Login() {
         body: JSON.stringify({
           username: e.currentTarget.username.value,
           password: e.currentTarget.password.value
-        })
+        },
+        )
       })
-
       if (res.status === 200) {
         Router.push('/search')
-      } else {}
-    } catch (e) {}
+      }
+    } catch (e) {
+      /** TODO: handle error **/
+      throw e
+    }
   }
   return (
     <>
       <Container className="wrapper d-flex justify-content-center align-items-center">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} action="/search">
           <Row className="justify-content-center align-items-center">
             <Col xs={10}>
               <div className="shadow px-4 py-5 rounded">
@@ -52,7 +56,7 @@ export default function Login() {
               <div 
                 className="text-center mt-3" 
                 style={{fontSize: '0.9rem'}}
-              >Don’t have an account? <a href="#">Sign up</a></div>
+              >Don’t have an account? <a href="/search">Sign up</a></div>
             </Col>
           </Row>
         </form>

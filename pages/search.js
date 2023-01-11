@@ -7,6 +7,8 @@ import Collection from "../components/collection"
 
 import { useState } from "react"
 import useSWR, { useSWRConfig } from 'swr'
+import { withIronSessionSsr } from "iron-session/next"
+import { ironConfig } from "../lib/config.js"
 
 export default function Search({ collections }) {
   const { mutate } = useSWRConfig()
@@ -38,12 +40,22 @@ export default function Search({ collections }) {
   );
 }
 
-export function getServerSideProps({ req, res }) {
-  // TODO fetch user's collections
-  console.log('HERE: ', req.user)
-  return {
-    props: {
-      collections: ['default', 'pizza']
+export const getServerSideProps = withIronSessionSsr(
+  async function getServerSideProps({ req }) {
+    const { user } = req.session;
+
+    if (!user) {
+      return {
+        redirect: {
+          destination: '/login',
+          permanent: false
+        }
+      }
     }
-  }
-}
+    return {
+      props: {
+        collections: ['default', 'pizza']
+      }
+    }
+  }, ironConfig
+)

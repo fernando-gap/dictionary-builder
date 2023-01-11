@@ -1,58 +1,40 @@
-import passport from "passport";
-import session from "express-session";
+import passport from "passport"
 import nextConnect from "next-connect";
 
 import { localStrategy } from "../../lib/strategy.js"
+import { withIronSessionApiRoute } from 'iron-session/next';
+import { ironConfig } from "../../lib/config.js"
 
 passport.use(localStrategy);
-
-passport.serializeUser(function(user, cb) {
-  process.nextTick(function() {
-    return cb(null, {
-      id: user.id,
-      username: user.username,
-    });
-  });
-});
-
-passport.deserializeUser(function(user, cb) {
-  process.nextTick(function() {
-    return cb(null, user);
-  });
-});
-
-const options = {
-  secret: 'test',
-  cookie: { secure: false },
-  saveUnitialize: false,
-  resave: false
-}
-
- const authenticate = (method, req, res) =>
+const authenticate = (method, req, res) =>
   new Promise((resolve, reject) => {
-    passport.authenticate(method, { session: true }, (error, token) => {
+    passport.authenticate(method, { session: false }, (error, token) => {
       if (error) {
         reject(error)
       } else {
-        req.login(token, err => {
-          if (err) {
-            res.status(401).send(err.message)
-          }
-          resolve(token)
-        })
+        resolve(token)
       }
     })(req, res)
+  });
+
+const handler = nextConnect()
+  .use(passport.initialize())
+  .use(async (req, res, next) => {
+      const user = await authenticate('local', req, res);
+      req.session.user = user
+      next();
   })
 
-export default nextConnect()
-  .use(passport.initialize())
-  .use(session(options))
-  .use(passport.session())
-  .post(async (req, res) => {
+export default withIronSessionApiRoute(
+  async function loginRoute(req, res) {
     try {
-      await authenticate('local', req, res)
-      res.status(200).send({ done: true })
+      await handler.run(req, res)
+      await req.session.save()
     } catch (e) {
-      res.status(401).send(e.message)
+      /** TODO: handle error **/
+      console.log(e)
     }
-  })
+    console.log('API ROUTE: ', req.session)
+    res.send({ ok: true })
+  }, ironConfig
+)
