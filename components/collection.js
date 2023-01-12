@@ -23,7 +23,8 @@ export default function Collection(props) {
     if (!currentWord) {
       setCurrentWord(map[props.collections[0]])
     }
-  }, [props.collections, currentWord, map])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.collections, currentWord])
 
   if (!props.collections) {
     return null
@@ -38,7 +39,7 @@ export default function Collection(props) {
 
   return (
     <>
-      <Col xs={12}>
+      <Col xs={12} style={{marginTop: '5rem'}}>
         <h1 className="text-center">Collections</h1>
         <select id="select-collection"className="btn btn-outline-primary w-100" onChange={handleChange}>
           {props.collections.map((e, index) => 

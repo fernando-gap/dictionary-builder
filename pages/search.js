@@ -16,7 +16,7 @@ export default function Search({ collections }) {
   return (
     <>
       <Container>
-          <Row>
+          <Row className="mx-auto px-3" style={{marginTop: '8rem'}}>
             <Col xs={12}>
               <h1 className="text-center">Word it!</h1>
                 <Form.Control
