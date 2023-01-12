@@ -1,15 +1,15 @@
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Form from "react-bootstrap/Form";
-import Container from "react-bootstrap/Container";
-import Button from "react-bootstrap/Button";
+import Row from "react-bootstrap/Row"
+import Col from "react-bootstrap/Col"
+import Form from "react-bootstrap/Form"
+import Container from "react-bootstrap/Container"
+import Button from "react-bootstrap/Button"
 
 import Router from "next/router"
-
+import Link from "next/link"
 
 export default function Login() {
   async function handleSubmit(e) {
-    e.preventDefault();
+    e.preventDefault()
     try {
       const res = await fetch('/api/login', {
         credentials: 'include',
@@ -28,7 +28,6 @@ export default function Login() {
       }
     } catch (e) {
       /** TODO: handle error **/
-      throw e
     }
   }
   return (
@@ -56,7 +55,7 @@ export default function Login() {
               <div 
                 className="text-center mt-3" 
                 style={{fontSize: '0.9rem'}}
-              >Don’t have an account? <a href="/search">Sign up</a></div>
+              >Don’t have an account? <Link href="#">Sign up</Link></div>
             </Col>
           </Row>
         </form>

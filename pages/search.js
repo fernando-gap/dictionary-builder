@@ -6,7 +6,7 @@ import Button from "react-bootstrap/Button"
 import Collection from "../components/collection"
 
 import { useState } from "react"
-import useSWR, { useSWRConfig } from 'swr'
+import { useSWRConfig } from 'swr'
 import { withIronSessionSsr } from "iron-session/next"
 import { ironConfig } from "../lib/config.js"
 
@@ -37,12 +37,12 @@ export default function Search({ collections }) {
           </Row>
       </Container>
     </>
-  );
+  )
 }
 
 export const getServerSideProps = withIronSessionSsr(
   async function getServerSideProps({ req }) {
-    const { user } = req.session;
+    const { user } = req.session
 
     if (!user) {
       return {

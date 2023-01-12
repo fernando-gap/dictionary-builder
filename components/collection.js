@@ -9,27 +9,31 @@ import useSWR from 'swr'
 const fetcher = url => fetch(url, { credentials: 'include' }).then(r => r.json())
 
 export default function Collection(props) {
-  if (!props.collections) {
-    return null;
-  }
-
   const [currentWord, setCurrentWord] = useState(null)
-  const map = {}
+  const [map, setMap] = useState({})
 
   useEffect(() => {
     props.collections.map((e, index) => {
-      map[e] = <Word key={index} col={e}/>
-    });
+      setMap(m => ({
+        ...m,
+        [e]: <Word key={index} col={e}/>
+      }))
+    })
 
     if (!currentWord) {
       setCurrentWord(map[props.collections[0]])
     }
-  }, [map]);
+  }, [props.collections, currentWord, map])
+
+  if (!props.collections) {
+    return null
+  }
+
 
   function handleChange() {
     const col = document.getElementById('select-collection')
-    props.setCol(col.value);
-    setCurrentWord(map[col.value]);
+    props.setCol(col.value)
+    setCurrentWord(map[col.value])
   }
 
   return (
