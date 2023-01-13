@@ -15,8 +15,11 @@ export default function Search({ collections }) {
   const [currentCol, setCurrentCol] = useState(collections[0])
   return (
     <>
+    <div id="search-wrapper" className="d-flex align-items-center">
       <Container>
-          <Row className="mx-auto px-3" style={{marginTop: '8rem'}}>
+           <Row 
+            className="align-items-center px-4"
+            >
             <Col xs={12}>
               <h1 className="text-center">Word it!</h1>
                 <Form.Control
@@ -25,7 +28,7 @@ export default function Search({ collections }) {
                 >
                 </Form.Control>
                 <div className="d-grid gap-2 mt-2">
-                  <Button type="submit" onClick={() => {
+                  <Button size="lg" type="submit" onClick={() => {
                     mutate(`/api/get/collection/${currentCol}`)
                   }}>Search</Button>
                 </div>
@@ -36,6 +39,7 @@ export default function Search({ collections }) {
             />
           </Row>
       </Container>
+    </div>
     </>
   )
 }

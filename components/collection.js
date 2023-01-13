@@ -39,15 +39,15 @@ export default function Collection(props) {
 
   return (
     <>
-      <Col xs={12} style={{marginTop: '5rem'}}>
+      <Col xs={12} md={12} id="collection-select">
         <h1 className="text-center">Collections</h1>
-        <select id="select-collection"className="btn btn-outline-primary w-100" onChange={handleChange}>
+        <select id="select-collection"className="btn btn-outline-primary w-100 mt-2" onChange={handleChange}>
           {props.collections.map((e, index) => 
             <option key={index} value={e}>{e}</option>
           )}
         </select>
       </Col>
-      <Col>
+      <Col xs={12} md={12} id="collection-words">
         {currentWord}
       </Col>
     </>

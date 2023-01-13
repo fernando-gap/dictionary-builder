@@ -1,1 +1,23 @@
 @import 'bootstrap/scss/bootstrap.scss';
+
+:root {
+    --wrapperDefault: calc(100vh - 12rem);
+    --wrapperSearch: calc(100vh - 20rem);
+}
+
+#search-wrapper {
+    height: var(--wrapperSearch);
+}
+
+#collection-select {
+    margin-top: 3.75rem;
+}
+
+@include media-breakpoint-up(md) {
+    #collection-select, #collection-words {
+        display: none;
+    }
+    #search-wrapper {
+       height: var(--wrapperDefault); 
+    }
+}
