@@ -6,8 +6,11 @@ import Button from "react-bootstrap/Button"
 
 import Router from "next/router"
 import Link from "next/link"
+import { useState } from "react"
 
 export default function Login() {
+  const [error, setError] = useState('')
+
   async function handleSubmit(e) {
     e.preventDefault()
     try {
@@ -23,11 +26,15 @@ export default function Login() {
         },
         )
       })
+      console.log(res)
       if (res.status === 200) {
         Router.push('/search')
+      } else {
+        setError('Incorrect name or password')
       }
     } catch (e) {
       /** TODO: handle error **/
+      setError('An error occured!')
     }
   }
   return (
@@ -36,15 +43,34 @@ export default function Login() {
         <form onSubmit={handleSubmit} action="/search">
           <Row className="justify-content-center align-items-center">
             <Col xs={10}>
+              {error && <div>
+                <div className="text-center text-danger mx-auto mb-3 w-75 border border-danger rounded">
+                  {error}
+                </div>
+              </div>}
               <div className="shadow px-4 py-5 rounded">
                 <Form.Group className="mb-3">
                   <Form.Label>Username</Form.Label>
-                  <Form.Control type="text" name="username" required></Form.Control>
+                  <Form.Control 
+                    type="text" 
+                    name="username" 
+                    required
+                    autoComplete="off"
+                    minLength={3}
+                    maxLength={20}></Form.Control>
                 </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Label>Password</Form.Label>
-                  <Form.Control type="password" name="password" required></Form.Control>
-                  <Form.Check type="checkbox" label="keep logged in" />
+                  <Form.Control 
+                    type="password" 
+                    name="password" 
+                    required
+                    minLength={3}
+                    maxLength={64}></Form.Control>
+                  <Form.Check 
+                    type="checkbox" 
+                    label="keep logged in"
+                    name="keepLogged"/>
                 </Form.Group>
                 <div className="d-grid gap-2">
                   <Button variant="primary" type="submit">Login</Button>

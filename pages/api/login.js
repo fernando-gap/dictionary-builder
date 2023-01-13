@@ -31,11 +31,10 @@ export default withIronSessionApiRoute(
     try {
       await handler.run(req, res)
       await req.session.save()
+      res.send({ ok: true })
     } catch (e) {
       /** TODO: handle error **/
-      console.log(e)
+      res.status(401).send({ ok: false })
     }
-    console.log('API ROUTE: ', req.session)
-    res.send({ ok: true })
   }, ironConfig
 )

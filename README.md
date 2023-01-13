@@ -2,7 +2,7 @@
 
 ## TODO
 - [ ] Tests (front and back)
-- [ ] Prettier & Eslint
+- [x] Prettier & Eslint
 - [ ] Github hooks
 - [ ] Error handling
 - [ ] Documentation
