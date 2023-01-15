@@ -20,10 +20,19 @@ const authenticate = (method, req, res) =>
 
 const handler = nextConnect()
   .use(passport.initialize())
-  .use(async (req, res, next) => {
-      const user = await authenticate('local', req, res)
-      req.session.user = user
-      next()
+  .use((req, res, next) => {
+    if (req.method != 'POST') {
+      throw Error(`Invalid Request Method ${req.method}`)
+    }
+    if (!req.body.password || !req.body.username) {
+      throw Error('Invalid Body Data')
+    }
+    next()
+  })
+  .post(async (req, res, next) => {
+    const user = await authenticate('local', req, res)
+    req.session.user = user
+    next()
   })
 
 export default withIronSessionApiRoute(
