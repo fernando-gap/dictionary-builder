@@ -3,10 +3,12 @@ const { Schema } = require('mongoose')
 const userSchema = new Schema({
   username: { type: String, required: true },
   password: { type: String, required: true },
-  age: { type: Date, required: true }
-})
+  collections: { type: [String] }
+}, { timestamps: true })
 
-const wordSchema = new Schema({ word: String })
+const wordSchema = new Schema({ 
+  word: String 
+}, { timestamps: true })
 
 /*
  * No use of discriminator (inheritance in other terms)
@@ -17,15 +19,15 @@ const wordSchema = new Schema({ word: String })
 const customWordSchema = new Schema({
   user: { type: userSchema, required: true },
   ...wordSchema.obj
-})
+}, { timestamps: true })
 
 const collectionSchema = new Schema({
   user: { type: userSchema, required: true },
   wordsCustom: [customWordSchema],
   wordsDefault: [wordSchema]
-})
+}, { timestamps: true })
 
-module.exports {
+module.exports = {
   collectionSchema,
   userSchema,
   wordSchema,
