@@ -1,37 +1,61 @@
-require('dotenv').config({
-  path: require('path').resolve('../', '.env.local')
-});
+import mongoose from "mongoose"
+import path from "path"
+import dotenv from 'dotenv'
 
-const mongoose = require('mongoose');
+dotenv.config({
+  path: path.resolve('../', '.env.local')
+})
+
+import {
+  DatabaseConnectionError,
+  UnexpectedDatabaseError,
+  DatabaseURLNotSet
+} from '../lib/errors/database.js'
+
+const conf = {
+  NODE_ENV: process.env.NODE_ENV,
+  DB_DEV: process.env.DB_URL_DEV,
+  DB_PROD: process.env.DB_URL_PROD,
+}
+
+if (conf.NODE_ENV === 'production') {
+  if (!conf.DB_PROD) {
+    throw new DatabaseURLNotSet('Enviroment variable: DB_URL_PRODUCTION')
+  }
+} else {
+  if (!conf.DB_DEV) {
+    throw new DatabaseURLNotSet('Enviroment variable: DB_URL_DEV')
+  }
+}
+
 mongoose.set('strictQuery', true);
 
-const {
-  userSchema,
-  wordSchema,
-  collectionSchema,
-  customWordSchema
-} = require('./schema.js')
+mongoose.connection.on('connected', e => {
+  console.log('MongoDB: connected')
+})
+mongoose.connection.on('error', e => {
+  console.log('MongoDB: error: ', e)
+  throw UnexpectedDatabaseError(e.message)
+})
+mongoose.connection.on('disconnected', e => {
+  console.log('MongoDB: disconnected');
+});
 
-const User = mongoose.model('Users', userSchema)
-const Word = mongoose.model('Words', wordSchema)
-const CustomWord = mongoose.model('CustomWords', customWordSchema)
-const Collection = mongoose.model('Collections', collectionSchema);
-
-(async () => {
+/* Middle to use in api routes **/
+const databaseMiddleware = async (req, res, next) => {
   try {
-    if (process.env.NODE_ENV === 'production') {
-      await mongoose.connect(process.env.DB_URL_PRODUCTION)
-    } else {
-      await mongoose.connect(process.env.DB_URL_DEV)
+    if (!global.mongoose) {
+      if (conf.NODE_ENV === 'production') {
+        global.mongoose = await mongoose.connect(conf.DB_PROD)
+      } else {
+        global.mongoose = await mongoose.connect(conf.DB_DEV)
+      }
     }
   } catch(e) {
-    throw e
-    //throw Error('Cannot connect to DATABASE', e)
+    throw new DatabaseConnectionError(e.message)
   }
-})()
-
-mongoose.connection.on('connected', e => console.log('connected'))
-
-module.exports = {
-  User
+  return next()
 }
+
+export default databaseMiddleware;
+
