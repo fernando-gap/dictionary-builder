@@ -1,8 +1,9 @@
 # Dictionary Builder
 
 ## TODO
-- [ ] Tests (front and back)
+- [x] Tests (front and back)
 - [x] Prettier & Eslint
 - [ ] Github hooks
-- [ ] Error handling
+- [x] Error handling
 - [ ] Documentation
+- [ ] Center .env (dev and prod)
