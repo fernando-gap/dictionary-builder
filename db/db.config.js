@@ -1,16 +1,16 @@
-import mongoose from "mongoose"
-import path from "path"
+import mongoose from 'mongoose'
+import path from 'path'
 import dotenv from 'dotenv'
-
-dotenv.config({
-  path: path.resolve('../', '.env.local')
-})
 
 import {
   DatabaseConnectionError,
   UnexpectedDatabaseError,
   DatabaseURLNotSet
 } from '../lib/errors/database.js'
+
+dotenv.config({
+  path: path.resolve('../', '.env.local')
+})
 
 const conf = {
   NODE_ENV: process.env.NODE_ENV,
@@ -28,18 +28,18 @@ if (conf.NODE_ENV === 'production') {
   }
 }
 
-mongoose.set('strictQuery', true);
+mongoose.set('strictQuery', true)
 
-mongoose.connection.on('connected', e => {
+mongoose.connection.on('connected', () => {
   console.log('MongoDB: connected')
 })
 mongoose.connection.on('error', e => {
   console.log('MongoDB: error: ', e)
   throw UnexpectedDatabaseError(e.message)
 })
-mongoose.connection.on('disconnected', e => {
-  console.log('MongoDB: disconnected');
-});
+mongoose.connection.on('disconnected', () => {
+  console.log('MongoDB: disconnected')
+})
 
 /* Middle to use in api routes **/
 const databaseMiddleware = async (req, res, next) => {
@@ -57,5 +57,5 @@ const databaseMiddleware = async (req, res, next) => {
   return next()
 }
 
-export default databaseMiddleware;
+export default databaseMiddleware
 

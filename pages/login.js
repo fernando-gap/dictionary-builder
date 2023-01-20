@@ -81,7 +81,7 @@ export default function Login() {
               <div 
                 className="text-center mt-3" 
                 style={{fontSize: '0.9rem'}}
-              >Don’t have an account? <Link href="#">Sign up</Link></div>
+              >Don’t have an account? <Link href="signup">Sign up</Link></div>
             </Col>
           </Row>
         </form>

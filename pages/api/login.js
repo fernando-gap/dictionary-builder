@@ -1,9 +1,9 @@
-import passport from "passport"
-import nextConnect from "next-connect"
+import passport from 'passport'
+import nextConnect from 'next-connect'
 
-import { localStrategy } from "../../lib/strategy.js"
+import { localStrategy } from '../../lib/strategy.js'
 import { withIronSessionApiRoute } from 'iron-session/next'
-import { ironConfig } from "../../lib/config.js"
+import { ironConfig } from '../../lib/config.js'
 
 passport.use(localStrategy)
 const authenticate = (method, req, res) =>

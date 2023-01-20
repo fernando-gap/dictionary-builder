@@ -1,34 +1,41 @@
 import mongoose, { Schema } from 'mongoose'
 
-const userSchema = new Schema({
+const schemas = {}
+
+schemas.userSchema = new Schema({
   username: { type: String, required: true },
   password: { type: String, required: true },
-}, { timestamps: true })
+}, { 
+  timestamps: true 
+})
 
-const wordSchema = new Schema({ 
+schemas.wordSchema = new Schema({ 
   word: String 
-}, { timestamps: true })
+}, { 
+  timestamps: true 
+})
 
-const customWordSchema = new Schema({
-  user: { type: userSchema, required: true },
-  ...wordSchema.obj
-}, { timestamps: true })
+schemas.customWordSchema = new Schema({
+  user: { type: schemas.userSchema, required: true },
+  ...schemas.wordSchema.obj
+}, { 
+  timestamps: true 
+})
 
-const collectionSchema = new Schema({
-  user: { type: userSchema, required: true },
-  wordsCustom: [customWordSchema],
-  wordsDefault: [wordSchema]
-}, { timestamps: true })
+schemas.collectionSchema = new Schema({
+  user: { type: schemas.userSchema, required: true },
+  wordsCustom: [schemas.customWordSchema],
+  wordsDefault: [schemas.wordSchema]
+}, { 
+  timestamps: true 
+})
 
-
-const proxy = new Proxy({}, {
-  get(t, prop, r) {
+// eslint-disable-next-line no-undef
+const db = new Proxy({}, {
+  get(t, prop) {
     const schema = prop.slice(0, -1).toLowerCase() + 'Schema'
-    return mongoose.models[prop] || mongoose.model(prop, this[schema])
+    return mongoose.models[prop] || mongoose.model(prop, schemas[schema])
   }
 })
 
-export const User = proxy.Users
-export const Word = proxy.Words
-export const CustomWord = proxy.CustomWords
-export const Collection = proxy.Collections
+export default db
