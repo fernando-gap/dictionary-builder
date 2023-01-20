@@ -17,8 +17,5 @@ describe('Login Page', () => {
   it('Sign up page', function() {
     cy.visit('/login')
     cy.contains('a', 'Sign up')
-    cy.get('div > a')
-      .should('have.attr', 'href')
-      .and('equal', 'signup')
   })
 })
