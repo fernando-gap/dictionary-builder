@@ -16,5 +16,14 @@ describe('Signup', function() {
         .send({ username: '*Heo/(){}&', password: 'adm___2' })
         .expect(400, { ok: false }, done)
     })
+    it('Don\'t create duplicates', function(done) {
+      agent
+        .post('/api/signup')
+        .send({ username: 'adm___2', password: 'adm___2' })
+        .expect(409, { 
+          ok: false, 
+          reason: "Username already exists"
+        }, done)
+    })
   })
 })
