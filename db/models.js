@@ -3,14 +3,18 @@ import mongoose, { Schema } from 'mongoose'
 const schemas = {}
 
 schemas.userSchema = new Schema({
-  username: { type: String, required: true },
+  username: { 
+    type: String, 
+    required: true,
+    unique: true
+  },
   password: { type: String, required: true },
 }, { 
   timestamps: true 
 })
 
 schemas.wordSchema = new Schema({ 
-  word: String 
+  word: String
 }, { 
   timestamps: true 
 })

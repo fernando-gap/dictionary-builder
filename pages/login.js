@@ -1,12 +1,12 @@
-import Row from "react-bootstrap/Row"
-import Col from "react-bootstrap/Col"
-import Form from "react-bootstrap/Form"
-import Container from "react-bootstrap/Container"
-import Button from "react-bootstrap/Button"
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import Form from 'react-bootstrap/Form'
+import Container from 'react-bootstrap/Container'
+import Button from 'react-bootstrap/Button'
 
-import Router from "next/router"
-import Link from "next/link"
-import { useState } from "react"
+import Router from 'next/router'
+import Link from 'next/link'
+import { useState } from 'react'
 
 export default function Login() {
   const [error, setError] = useState('')

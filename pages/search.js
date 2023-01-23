@@ -1,14 +1,14 @@
-import Container from "react-bootstrap/Container"
-import Row from "react-bootstrap/Row"
-import Col from "react-bootstrap/Col"
-import Form from "react-bootstrap/Form"
-import Button from "react-bootstrap/Button"
-import Collection from "../components/collection"
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
+import Collection from '../components/collection'
 
-import { useState } from "react"
+import { useState } from 'react'
 import { useSWRConfig } from 'swr'
-import { withIronSessionSsr } from "iron-session/next"
-import { ironConfig } from "../lib/config.js"
+import { withIronSessionSsr } from 'iron-session/next'
+import { ironConfig } from '../lib/config.js'
 
 export default function Search({ collections }) {
   const { mutate } = useSWRConfig()

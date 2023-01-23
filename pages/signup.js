@@ -1,12 +1,12 @@
-import Row from "react-bootstrap/Row"
-import Col from "react-bootstrap/Col"
-import Form from "react-bootstrap/Form"
-import Container from "react-bootstrap/Container"
-import Button from "react-bootstrap/Button"
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import Form from 'react-bootstrap/Form'
+import Container from 'react-bootstrap/Container'
+import Button from 'react-bootstrap/Button'
 
-import Router from "next/router"
-import Link from "next/link"
-import { useState } from "react"
+import Router from 'next/router'
+import Link from 'next/link'
+import { useState } from 'react'
 
 export default function Login() {
   const [error, setError] = useState('')
@@ -36,10 +36,10 @@ export default function Login() {
           },
           )
         })
-        if (res.status === 200) {
+        if (res.status === 201) {
           Router.push('/login')
         } else {
-          setError('Incorrect name or password')
+          setError(`Error: ${res.reason}`)
         }
       } else {
         setError('Invalid input: only A-Za-z0-9 and _')
@@ -97,7 +97,7 @@ export default function Login() {
               <div 
                 className="text-center mt-3" 
                 style={{fontSize: '0.9rem'}}
-              >Already have an account? <Link href="#">Login</Link></div>
+              >Already have an account? <Link href="/login">Login</Link></div>
             </Col>
           </Row>
         </form>
