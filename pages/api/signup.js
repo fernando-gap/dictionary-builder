@@ -13,31 +13,32 @@ handler.use((req, res, next) => {
   next()
 })
 
+handler.use((req, res, next) => {
+  if (!/\W|_/.test(req.body.username))
+    return next()
+  res.status(400).send({ ok: false})
+})
+
 handler.post(async (req, res) => {
   const { username, password } = req.body
   const user = await db.Users.findOne({ username: username})
 
   if (!user) {
-    try {
-      const salt = await bcrypt.genSalt()
-      const hash = await bcrypt.hash(password, salt)
-      const newUser = new db.Users({
+    const salt = await bcrypt.genSalt()
+    const hash = await bcrypt.hash(password, salt)
+
+    const newUser = new db.Users({
         username: username,
         password: hash
-      })
+    })
 
-      newUser.save(function(err, user) {
-        if (err) {
-          /** TODO: handle error */
-          return err
-        }
-      })
+    newUser.save(function(err) {
+      if (err) {
+        return err
+      }
+    })
 
-      res.status(201).send({ ok: true })
-    } catch (e) {
-      /** TODO: handle error */
-      throw e
-    }
+    res.status(201).send({ ok: true })
   } else {
     res.status(409).send({ 
       ok: false, 
