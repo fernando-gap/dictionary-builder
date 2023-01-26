@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint --fix",
     "test:cypress": "npx cypress open",
-    "db:reset": "",
+    "db:reset": "mongosh dict --eval 'db.dropDatabase()'",
     "db:seed": ""
   },
   "dependencies": {

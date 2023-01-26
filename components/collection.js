@@ -1,6 +1,6 @@
-import Card from "react-bootstrap/Card"
-import ListGroup from "react-bootstrap/ListGroup"
-import Col from "react-bootstrap/Col"
+import Card from 'react-bootstrap/Card'
+import ListGroup from 'react-bootstrap/ListGroup'
+import Col from 'react-bootstrap/Col'
 
 import { useState, useEffect } from 'react'
 import useSWR from 'swr'
