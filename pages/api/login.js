@@ -1,5 +1,5 @@
 import passport from 'passport'
-import nextConnect from 'next-connect'
+import createHandler from '../../lib/index.js'
 
 import { localStrategy } from '../../lib/strategy.js'
 import { withIronSessionApiRoute } from 'iron-session/next'
@@ -18,7 +18,7 @@ const authenticate = (method, req, res) =>
     })(req, res)
   })
 
-const handler = nextConnect()
+const handler = createHandler()
   .use(passport.initialize())
   .use((req, res, next) => {
     if (req.method != 'POST') {
